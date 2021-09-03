@@ -1,0 +1,15 @@
+{
+  "short_name": "Sky Carousal",
+  "name": "Image Carousal Maker",
+  "icons": [
+    {
+      "src": "gdlogo.png",
+      "type": "image/png",
+      "sizes": "96x87"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

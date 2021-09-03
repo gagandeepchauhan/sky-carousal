@@ -1,0 +1,11 @@
+###
+GET http://localhost:3001/categories/
+
+###
+GET http://localhost:3001/categories/technology?limit=3&page=2
+
+###
+GET http://localhost:3001/categories/fetch-category?query=sky
+
+###
+GET http://localhost:3001/categories/fetch-category?query=technology
