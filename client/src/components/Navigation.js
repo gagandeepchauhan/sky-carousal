@@ -24,7 +24,7 @@ export default function Navigation({carousalImages,setCarousalImages}) {
 		})
 		const blob = new Blob([JSON.stringify(exportedData,null,2)],{type:"text/json"})
 		exportRef.current.href = URL.createObjectURL(blob)
-		console.log(JSON.stringify(exportedData,null,2))
+		// console.log(JSON.stringify(exportedData,null,2))
 	}
 
 	useEffect(()=>{

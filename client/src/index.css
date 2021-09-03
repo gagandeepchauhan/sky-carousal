@@ -15,6 +15,9 @@ body{
 	color:#000;
 	height:100vh;
 }
+.hover-container{
+	background: rgb(218, 223, 226);
+}
 .styled-scrollbar::-webkit-scrollbar{
 	width:4px;
 	height:4px;
@@ -53,6 +56,18 @@ body{
 	display:flex;
 	justify-content: center;
 	align-items: center;
+}
+.image-skeleton{
+	background-color: rgba(218, 223, 226,1);
+	animation: image-skeleton 1s ease-in-out infinite alternate;
+}
+@keyframes image-skeleton{
+	from {
+		background-color: rgba(218, 223, 226,1);
+	}
+	to{
+		background-color: rgba(218, 223, 226,0);
+	}
 }
 
 /* -------------------------------------- NAVIGATION ----------------------------------------------- */
@@ -115,7 +130,7 @@ body{
 	justify-content: flex-start;
 	align-items: flex-start;
 	flex-direction: column;
-	width:25%;
+	width:20%;
 	border-right:1px solid lightgrey;
 }
 
@@ -195,6 +210,7 @@ body{
 	padding:20px;
 	height:100%;
 	width:100%;
+	position: relative;
 }
 .category-head{
 	display: flex;
@@ -216,6 +232,7 @@ body{
 	align-items: flex-start;
 	flex-direction: column;
 	max-height: 80%;
+	height:80%;
 	overflow-y: auto;
 	overflow-x: hidden;
 	margin-top:10px;
@@ -232,6 +249,10 @@ body{
 	border-radius: 5px;
 	object-fit: cover;
 	cursor:move;
+	transition: all 0.4s;
+}
+.image-item img:hover{
+	opacity: 0.8;
 }
 .image-item .image-desc{
 	padding-left:10px;
@@ -241,6 +262,9 @@ body{
 	display:flex;
 	justify-content: space-between;
 	align-items: center;
+	position: absolute;
+	bottom: 10px;
+	width:87%;
 }
 .page-btn{
 	border:none;
@@ -267,7 +291,7 @@ body{
 /* --------------------------- CAROUSAL SECTION ------------------------  */
 .carousal{
 	height:100%;
-	width:75%;
+	width:80%;
 	display:flex;
 	justify-content: flex-start;
 	align-items: flex-start;
@@ -356,7 +380,7 @@ body{
 	height:80px;
 	border-radius: 5px;
 	object-fit: cover;
-	cursor: pointer;
+	cursor: move;
 	transition: all 0.4s;
 }
 .carousal-image img:hover{
@@ -364,6 +388,9 @@ body{
 }
 .carousal-image:last-of-type{
 	margin-right:20px;
+}
+.dragging{
+	opacity:0.5;
 }
 
 
@@ -382,4 +409,16 @@ body{
     to {
         transform: rotate(1turn);
     }
+}
+
+/* ---------------------------- MEDIA QUERIES ---------------------------- */
+@media all and (max-width: 1075px){
+	.image-item .image-desc{
+		display:none;
+	}
+}
+@media all and (max-width: 750px){
+	.category-head select,.btn-group{
+		display:none;
+	}
 }

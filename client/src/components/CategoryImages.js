@@ -4,28 +4,43 @@ import api from '../api'
 
 import {useError} from '../contexts/ErrorContext'
 
-export default function CategoryImages({selectedCategory,setCarousalImages}) {
+import Image from './Image'
+
+export default function CategoryImages({bg,carousalImages,setCarousalImages,selectedCategory,categoryImages,setCategoryImages,removeFromCarousalRef,onDropImage}) {
 	const [page,setPage] = useState(1)
 	const [limit,setLimit] = useState(5)
-	const [catImages,setCatImages] = useState([])
+	const [hasPrev,setHasPrev] = useState(null)
+	const [hasNext,setHasNext] = useState(null)
 	const {setError,setLoading} = useError()
 
 	async function fetchCategoryImages(page){
 		try{
 			setLoading(true)
 			const result = await api.get(`/categories/${selectedCategory}?page=${page}&limit=${limit}`)
-			setCatImages(result.data)
-			setCarousalImages(result.data?.data)
+			if(carousalImages?.length===0){
+				setCarousalImages(result.data?.data?.slice(0,4))
+				setCategoryImages(result.data?.data?.slice(4))
+			}else{
+				const catData = result.data?.data?.filter((item)=>{
+					if(carousalImages.find(car=>car.id===item.id)){
+						return false
+					}
+					return true
+				})
+				setCategoryImages(catData)
+			}
+			setHasPrev(result.data?.prev)
+			setHasNext(result.data?.next)
 		}catch(err){
 			setError(err.toString())
 		}
 		setLoading(false)
 	}
 	function showPrevBtn(){
-		return catImages.prev ? true : false
+		return hasPrev ? true : false
 	}
 	function showNextBtn(){
-		return catImages.next ? true : false
+		return hasNext ? true : false
 	}
 	function loadImages(){
 		if(selectedCategory){
@@ -35,18 +50,6 @@ export default function CategoryImages({selectedCategory,setCarousalImages}) {
 				setPage(1)
 			}
 		}
-	}
-	function handleImageDrag(e){
-		console.log('Drag started',e)
-		e.target.style.opacity=0.5
-	}
-	function handleImageDrop(e){
-		console.log('Drag ended',e)
-		e.target.style.opacity=1
-	}
-	function handleImageDragOver(e){
-		e.preventDefault()
-		console.log("dragging over",e)
 	}
 
 	useEffect(()=>{
@@ -75,7 +78,10 @@ export default function CategoryImages({selectedCategory,setCarousalImages}) {
 			<div className="category-images">
 				<div className="category-head">
 					<h4>{selectedCategory}</h4>
-					<select value={limit} onChange={(e)=>setLimit(e.target.value)}>
+					<select 
+						value={limit} 
+						onChange={(e)=>setLimit(e.target.value)}
+					>
 						<option value={5}>5</option>
 						<option value={10}>10</option>
 						<option value={15}>15</option>
@@ -84,20 +90,35 @@ export default function CategoryImages({selectedCategory,setCarousalImages}) {
 						<option value={30}>30</option>
 					</select>
 				</div>
-				<div onDragOver={handleImageDragOver} className="images-list styled-scrollbar">
-					{catImages.data?.map((item)=>(
-						<div key={item.id} className="image-item">
-							<img onDragEnd={handleImageDrop} onDragStart={handleImageDrag} draggable={true} src={item.urls.small} alt={item.description} /> 
-							<div className="image-desc">
-								{item.description?.substr(0,15)}...
-							</div>
-						</div>
+				<div 
+					className={`images-list styled-scrollbar ${bg}`}
+					ref={removeFromCarousalRef}
+				>
+					{categoryImages?.map((item,idx)=>(
+						<Image 
+							key={item.id} 
+							index={idx}
+							imageType="category"
+							onDropImage={onDropImage}
+							item={item}
+							onClick={()=>{}}
+						/>
 					))}
 				</div>
 				<div className="btn-group">
-					<button className="page-btn" disabled={!showPrevBtn()} onClick={()=>setPage(prev=>prev-1)} >Prev</button>
-					<small>Page - {page}</small>
-					<button className="page-btn" disabled={!showNextBtn()} onClick={()=>setPage(prev=>prev+1)} >Next</button>
+					<button 
+						className="page-btn" 
+						disabled={!showPrevBtn()} 
+						onClick={()=>setPage(prev=>prev-1)} >
+							Prev
+					</button>
+					<small className="light-para">Page - {page}</small>
+					<button 
+						className="page-btn" 
+						disabled={!showNextBtn()} 
+						onClick={()=>setPage(prev=>prev+1)} >
+							Next
+					</button>
 				</div>
 			</div>
 		</div>

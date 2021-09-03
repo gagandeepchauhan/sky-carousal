@@ -1,4 +1,5 @@
 import React,{ useState, useEffect } from 'react'
+import { useDrop } from 'react-dnd'
 
 import api from '../api'
 
@@ -16,8 +17,39 @@ export default function HomeScreen() {
 	const [categories,setCategories] = useState([])
 	const [selectedCategory,setSelectedCategory] = useState(null)
 	const [carousalImages,setCarousalImages] = useState([])
+	const [categoryImages,setCategoryImages] = useState([])
 	const [mainImageIndex,setMainImageIndex] = useState(0)
 	const {setError,setLoading} = useError()
+
+	const [ { isOver }, addToCarousalRef ] = useDrop({
+		accept : "category",
+		collect : (monitor) => ({
+			isOver : !!monitor.isOver()
+		})
+	})
+
+	const [ { isOver : isCategoryOver }, removeFromCarousalRef ] = useDrop({
+		accept : "carousal",
+		collect : (monitor) => ({
+			isOver : !!monitor.isOver()
+		})
+	})
+
+	const moveImage = (item)=>{
+		// console.log(item)
+		if(item && item.type==="category"){
+			// adding image to carousal
+			setCarousalImages(prev=>[...prev,categoryImages[item.index]])
+			setCategoryImages(prev=>prev.filter((_,idx)=>idx!==item.index))
+		}else{
+			// remove image from carousal
+			setCategoryImages(prev=>[...prev,carousalImages[item.index]])
+			setCarousalImages(prev=>prev.filter((_,idx)=>idx!==item.index))
+		}
+	}
+
+	const dragHoverCarousalBg = isOver ? 'hover-container' : ''
+	const dragHoverCategoryBg = isCategoryOver ? 'hover-container' : ''
 
 	async function fetchCategories(){
 		try{
@@ -36,7 +68,7 @@ export default function HomeScreen() {
 
 	return (
 		<>
-			<ErrorSection/>
+			<ErrorSection />
 			<LoadingSection />
 			<Navigation 
 				carousalImages={carousalImages}
@@ -49,8 +81,14 @@ export default function HomeScreen() {
 						setSelectedCategory={setSelectedCategory} 
 					/>
 					<CategoryImages 
-						selectedCategory={selectedCategory} 
-						setCarousalImages={setCarousalImages} 
+						selectedCategory={selectedCategory}
+						categoryImages={categoryImages} 
+						carousalImages={carousalImages} 
+						setCarousalImages={setCarousalImages}
+						setCategoryImages={setCategoryImages} 
+						removeFromCarousalRef={removeFromCarousalRef}
+						onDropImage={moveImage}
+						bg={dragHoverCategoryBg}
 					/>
 				</div>
 				<div className="carousal">
@@ -58,10 +96,15 @@ export default function HomeScreen() {
 						carousalImages={carousalImages} 
 						mainImageIndex={mainImageIndex} 
 						setMainImageIndex={setMainImageIndex} 
+						selectedCategory={selectedCategory}
 					/>
 					<CarousalImages 
+						selectedCategory={selectedCategory}
 						carousalImages={carousalImages} 
 						setMainImageIndex={setMainImageIndex}
+						addToCarousalRef={addToCarousalRef}
+						onDropImage={moveImage}
+						bg={dragHoverCarousalBg}
 					/>
 				</div>
 			</div>

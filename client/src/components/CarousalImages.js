@@ -1,7 +1,10 @@
 import React from 'react'
 
-export default function CarousalImages({carousalImages,setMainImageIndex}) {
-	if(carousalImages.length===0){
+import Image from './Image'
+
+export default function CarousalImages({bg,selectedCategory,carousalImages,setMainImageIndex, addToCarousalRef, onDropImage}) {
+
+	if(!selectedCategory){
 		return (
 			<div className="carousal-images-section styled-scrollbar">
 				<div className="carousal-skeleton">
@@ -11,16 +14,19 @@ export default function CarousalImages({carousalImages,setMainImageIndex}) {
 		)
 	}
 	return (
-		<div className="carousal-images-section styled-scrollbar">
-			{carousalImages?.map((item,index)=>(
-				<div key={item.id} className="carousal-image">
-					<img 
-						draggable={true} 
-						src={item.urls.small} 
-						alt={item.description} 
-						onClick={()=>setMainImageIndex(index)} 
-					/> 
-				</div>
+		<div 
+			className={`carousal-images-section styled-scrollbar ${bg}`}
+			ref={addToCarousalRef}
+		>
+			{carousalImages?.map((item,idx)=>(
+				<Image 
+					key={item.id} 
+					index={idx}
+					imageType="carousal"
+					onDropImage={onDropImage}
+					item={item}
+					onClick={()=>setMainImageIndex(idx)}
+				/>
 			))}
 		</div>
 	)
