@@ -41,8 +41,11 @@ Exported JSON format is of the form -
 First clone the repo then follow below steps - 
 
 	1. go to the project directory
-	2. run -> server_script.sh ( on windows ) or ./server_script.sh ( linux ) 
-	3. run -> client_script.sh
+	2. go to client folder -> cd client and run -> npm install
+	3. return to project directory and go to server folder -> cd server and run -> npm install
+	4. return to project directory and run below commands
+	5. run -> server_script.sh ( on windows ) or ./server_script.sh ( linux ) 
+	6. run -> client_script.sh
 
 ### Files
 

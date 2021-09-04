@@ -15,15 +15,33 @@ export default function Categories({categories,setSelectedCategory}) {
 			<div className="categories">
 				<h4>Select category</h4>
 				<div className="category-input">
-					<input type="text" value={cat} disabled placeholder="select category" />
-					<div className="drop-icon" onClick={()=>setShowCat(prev=>!prev)} >
-						icon
+					<input 
+						type="text" 
+						value={cat} 
+						editable={false} 
+						placeholder="select category" 
+						onClick={()=>setShowCat(prev=>!prev)}
+					/>
+					<div 
+						className="drop-icon" 
+						onClick={()=>setShowCat(prev=>!prev)}
+					>
+						{ showCat ?
+							<i className="fas fa-caret-up"></i>
+							:
+							<i className="fas fa-caret-down"></i>
+						}
 					</div>
 				</div>
 				{showCat &&
 					<div className="category-list styled-scrollbar">
 						{categories.map((cat,index)=>(
-							<li key={index} onClick={()=>handleCategorySelection(index)} >{cat}</li>
+							<li 
+								key={index} 
+								onClick={()=>handleCategorySelection(index)} 
+							>
+									{cat}
+							</li>
 						))}
 					</div>
 				}
