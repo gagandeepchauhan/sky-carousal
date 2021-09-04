@@ -409,7 +409,7 @@ body{
 	left:50%;
 	transform: translate(-50%,-50%);
 }
-.prev-slide:hover,.next-slide:hover{
+.slide-btn:hover{
 	background: rgba(0,0,0,0.5);
 }
 .carousal-images-section{

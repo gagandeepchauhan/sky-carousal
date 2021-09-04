@@ -2,6 +2,8 @@ import React,{useState,useEffect,useRef} from 'react'
 
 import { Modal } from 'react-bootstrap'
 
+const IMPORT_PLACEHOLDER = JSON.stringify([{"description": "image description","urls":{"regular": "https://regular-image-url","small": "https://small-image-url"}}],null,4)
+
 export default function Navigation({carousalImages,setCarousalImages}) {
 	const [exportedData,setExportedData] = useState([])
 	const [importedData,setImportedData] = useState('')
@@ -98,6 +100,7 @@ export default function Navigation({carousalImages,setCarousalImages}) {
 					<textarea 
 						value={importedData} 
 						rows={10}
+						placeholder={`/* UNDER CONSTRUCTION */ \n\n${IMPORT_PLACEHOLDER}`}
 						onChange={(e)=>setImportedData(e.target.value)}
 						className="import-area styled-scrollbar"
 					>
@@ -118,3 +121,5 @@ export default function Navigation({carousalImages,setCarousalImages}) {
 		</div>
 	)
 }
+
+
