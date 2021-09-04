@@ -5,3 +5,10 @@
 # env files
 /server/.env
 
+# miscellaneous
+/server/.gitignore
+/client/.gitignore
+/client/build
+/client/.firebaserc
+/client/firebase.json
+

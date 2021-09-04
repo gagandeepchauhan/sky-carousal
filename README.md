@@ -1,5 +1,8 @@
 # Image Carousal Maker
 
+Deployed at - https://sky-carousal.web.app  (client)
+server - https://sky-carousal.herokuapp.com
+
 It is a simple carousal maker, that consumes unsplash API to load images
 falling under different category. Using it any one can create carousal containing 
 mixed category images, and then export the JSON object containing URL's of images
